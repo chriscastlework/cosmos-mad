@@ -4,7 +4,6 @@ using Microsoft.Azure.WebJobs.Hosting;
 [assembly: WebJobsStartup(typeof(Startup))]
 namespace DatabaseMigrator
 {
-    using System;
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Hosting;
     using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +15,8 @@ namespace DatabaseMigrator
             // Setup
             builder.Services.AddLogging();
             DatabaseInjector.RegisterServices(builder.Services);
+
+
         }
     }
 }

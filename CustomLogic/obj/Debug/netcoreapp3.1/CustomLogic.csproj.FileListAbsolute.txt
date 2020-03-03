@@ -1,13 +1,8 @@
 C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\bin\Debug\netcoreapp3.1\CustomLogic.deps.json
-C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\bin\Debug\netcoreapp3.1\CustomLogic.pdb
-C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\obj\Debug\netcoreapp3.1\CustomLogic.AssemblyInfoInputs.cache
-C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\obj\Debug\netcoreapp3.1\CustomLogic.AssemblyInfo.cs
-C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\obj\Debug\netcoreapp3.1\CustomLogic.dll
-C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\obj\Debug\netcoreapp3.1\CustomLogic.pdb
 C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\bin\Debug\netcoreapp3.1\CustomLogic.runtimeconfig.json
 C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\bin\Debug\netcoreapp3.1\CustomLogic.runtimeconfig.dev.json
-C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\obj\Debug\netcoreapp3.1\CustomLogic.genruntimeconfig.cache
 C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\bin\Debug\netcoreapp3.1\bin\CustomLogic.dll
+C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\bin\Debug\netcoreapp3.1\CustomLogic.pdb
 C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\bin\Debug\netcoreapp3.1\bin\System.Net.Http.Formatting.dll
 C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\bin\Debug\netcoreapp3.1\bin\Microsoft.AspNetCore.Authentication.Abstractions.dll
 C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\bin\Debug\netcoreapp3.1\bin\Microsoft.AspNetCore.Authentication.Core.dll
@@ -86,5 +81,10 @@ C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\bin\Debug\netcoreapp3.1
 C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\bin\Debug\netcoreapp3.1\bin\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\bin\Debug\netcoreapp3.1\bin\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\obj\Debug\netcoreapp3.1\CustomLogic.csproj.CoreCompileInputs.cache
+C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\obj\Debug\netcoreapp3.1\CustomLogic.AssemblyInfoInputs.cache
+C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\obj\Debug\netcoreapp3.1\CustomLogic.AssemblyInfo.cs
 C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\obj\Debug\netcoreapp3.1\CustomLogic.csproj.CopyComplete
+C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\obj\Debug\netcoreapp3.1\CustomLogic.dll
+C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\obj\Debug\netcoreapp3.1\CustomLogic.pdb
+C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\obj\Debug\netcoreapp3.1\CustomLogic.genruntimeconfig.cache
 C:\Users\chris\source\repos\DatabaseMigrator\CustomLogic\obj\Debug\netcoreapp3.1\CustomLogic.csprojAssemblyReference.cache
