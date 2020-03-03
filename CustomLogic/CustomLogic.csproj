@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Services\CandidateResponse\**" />
+    <Compile Remove="Services\CandidateSkill\**" />
+    <Compile Remove="Services\Candidate\**" />
+    <Compile Remove="Services\EmployerResponse\**" />
+    <Compile Remove="Services\Employer\**" />
+    <Compile Remove="Services\JobSkill\**" />
+    <Compile Remove="Services\Job\**" />
+    <Compile Remove="Services\Skill\**" />
+    <Compile Remove="Services\UserService\**" />
+    <EmbeddedResource Remove="Services\CandidateResponse\**" />
+    <EmbeddedResource Remove="Services\CandidateSkill\**" />
+    <EmbeddedResource Remove="Services\Candidate\**" />
+    <EmbeddedResource Remove="Services\EmployerResponse\**" />
+    <EmbeddedResource Remove="Services\Employer\**" />
+    <EmbeddedResource Remove="Services\JobSkill\**" />
+    <EmbeddedResource Remove="Services\Job\**" />
+    <EmbeddedResource Remove="Services\Skill\**" />
+    <EmbeddedResource Remove="Services\UserService\**" />
+    <None Remove="Services\CandidateResponse\**" />
+    <None Remove="Services\CandidateSkill\**" />
+    <None Remove="Services\Candidate\**" />
+    <None Remove="Services\EmployerResponse\**" />
+    <None Remove="Services\Employer\**" />
+    <None Remove="Services\JobSkill\**" />
+    <None Remove="Services\Job\**" />
+    <None Remove="Services\Skill\**" />
+    <None Remove="Services\UserService\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+</Project>

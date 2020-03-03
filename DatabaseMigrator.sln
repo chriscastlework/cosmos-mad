@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29721.120
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseMigrator", "DatabaseMigrator\DatabaseMigrator.csproj", "{1DF902E4-30AF-47A4-9FB7-2AD44878DFA6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomLogic", "CustomLogic\CustomLogic.csproj", "{11D59E5E-24CB-4C74-A81E-02AB127C3449}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1DF902E4-30AF-47A4-9FB7-2AD44878DFA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DF902E4-30AF-47A4-9FB7-2AD44878DFA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DF902E4-30AF-47A4-9FB7-2AD44878DFA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DF902E4-30AF-47A4-9FB7-2AD44878DFA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11D59E5E-24CB-4C74-A81E-02AB127C3449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11D59E5E-24CB-4C74-A81E-02AB127C3449}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11D59E5E-24CB-4C74-A81E-02AB127C3449}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11D59E5E-24CB-4C74-A81E-02AB127C3449}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C3D77320-4B5C-45CF-912B-9AE5CC52A2D4}
+	EndGlobalSection
+EndGlobal
