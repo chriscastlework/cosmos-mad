@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Text;
 
     public class TypeScriptCodeWriter : ICodeWriter
     {
@@ -40,27 +41,27 @@
             }
         }
 
-        public void WriteClass(IJsonClassGeneratorConfig config, TextWriter sw, JsonType type)
+        public void WriteClass(IJsonClassGeneratorConfig config, StringBuilder sw, JsonType type)
         {
             var prefix = GetNamespace(config, type.IsRoot) != null ? "    " : "";
             var exported = !config.InternalVisibility || config.SecondaryNamespace != null;
-            sw.WriteLine(prefix + (exported ? "export " : string.Empty) + "interface " + type.AssignedName + " {");
+            sw.AppendLine(prefix + (exported ? "export " : string.Empty) + "interface " + type.AssignedName + " {");
             foreach (var field in type.Fields)
             {
                 var shouldDefineNamespace = type.IsRoot && config.SecondaryNamespace != null && config.Namespace != null && (field.Type.Type == JsonTypeEnum.Object || (field.Type.InternalType != null && field.Type.InternalType.Type == JsonTypeEnum.Object));
                 if (config.ExamplesInDocumentation)
                 {
-                    sw.WriteLine();
-                    sw.WriteLine(prefix + "    /**");
-                    sw.WriteLine(prefix + "      * Examples: " + field.GetExamplesText());
-                    sw.WriteLine(prefix + "      */");
+                    sw.AppendLine();
+                    sw.AppendLine(prefix + "    /**");
+                    sw.AppendLine(prefix + "      * Examples: " + field.GetExamplesText());
+                    sw.AppendLine(prefix + "      */");
                 }
 
 
-                sw.WriteLine(prefix + "    " + field.JsonMemberName + (IsNullable(field.Type.Type) ? "?" : "") + ": " + (shouldDefineNamespace ? config.SecondaryNamespace + "." : string.Empty) + GetTypeName(field.Type, config) + ";");
+                sw.AppendLine(prefix + "    " + field.JsonMemberName + (IsNullable(field.Type.Type) ? "?" : "") + ": " + (shouldDefineNamespace ? config.SecondaryNamespace + "." : string.Empty) + GetTypeName(field.Type, config) + ";");
             }
-            sw.WriteLine(prefix + "}");
-            sw.WriteLine();
+            sw.AppendLine(prefix + "}");
+            sw.AppendLine();
         }
 
         private bool IsNullable(JsonTypeEnum type)
@@ -74,16 +75,16 @@
                 type == JsonTypeEnum.NullableSomething;
         }
 
-        public void WriteFileStart(IJsonClassGeneratorConfig config, TextWriter sw)
+        public void WriteFileStart(IJsonClassGeneratorConfig config, StringBuilder sw)
         {
             foreach (var line in JsonClassGenerator.FileHeader)
             {
-                sw.WriteLine("// " + line);
+                sw.AppendLine("// " + line);
             }
-            sw.WriteLine();
+            sw.AppendLine();
         }
 
-        public void WriteFileEnd(IJsonClassGeneratorConfig config, TextWriter sw)
+        public void WriteFileEnd(IJsonClassGeneratorConfig config, StringBuilder sw)
         {
         }
 
@@ -92,22 +93,22 @@
             return root ? config.Namespace : (config.SecondaryNamespace ?? config.Namespace);
         }
 
-        public void WriteNamespaceStart(IJsonClassGeneratorConfig config, TextWriter sw, bool root)
+        public void WriteNamespaceStart(IJsonClassGeneratorConfig config, StringBuilder sw, bool root)
         {
             if (GetNamespace(config, root) != null)
             {
 
-                sw.WriteLine("module " + GetNamespace(config, root) + " {");
-                sw.WriteLine();
+                sw.AppendLine("module " + GetNamespace(config, root) + " {");
+                sw.AppendLine();
             }
         }
 
-        public void WriteNamespaceEnd(IJsonClassGeneratorConfig config, TextWriter sw, bool root)
+        public void WriteNamespaceEnd(IJsonClassGeneratorConfig config, StringBuilder sw, bool root)
         {
             if (GetNamespace(config, root) != null)
             {
-                sw.WriteLine("}");
-                sw.WriteLine();
+                sw.AppendLine("}");
+                sw.AppendLine();
             }
         }
 

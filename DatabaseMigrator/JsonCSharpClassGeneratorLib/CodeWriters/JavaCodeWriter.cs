@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Text;
 
     public class JavaCodeWriter : ICodeWriter
     {
@@ -20,30 +21,30 @@
             throw new NotImplementedException();
         }
 
-        public void WriteClass(IJsonClassGeneratorConfig config, TextWriter sw, JsonType type)
+        public void WriteClass(IJsonClassGeneratorConfig config, StringBuilder sw, JsonType type)
         {
             throw new NotImplementedException();
         }
 
-        public void WriteFileStart(IJsonClassGeneratorConfig config, TextWriter sw)
+        public void WriteFileStart(IJsonClassGeneratorConfig config, StringBuilder sw)
         {
             foreach (var line in JsonClassGenerator.FileHeader)
             {
-                sw.WriteLine("// " + line);
+                sw.AppendLine("// " + line);
             }
         }
 
-        public void WriteFileEnd(IJsonClassGeneratorConfig config, TextWriter sw)
+        public void WriteFileEnd(IJsonClassGeneratorConfig config, StringBuilder sw)
         {
             throw new NotImplementedException();
         }
 
-        public void WriteNamespaceStart(IJsonClassGeneratorConfig config, TextWriter sw, bool root)
+        public void WriteNamespaceStart(IJsonClassGeneratorConfig config, StringBuilder sw, bool root)
         {
             throw new NotImplementedException();
         }
 
-        public void WriteNamespaceEnd(IJsonClassGeneratorConfig config, TextWriter sw, bool root)
+        public void WriteNamespaceEnd(IJsonClassGeneratorConfig config, StringBuilder sw, bool root)
         {
             throw new NotImplementedException();
         }

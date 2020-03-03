@@ -6,12 +6,11 @@ using Microsoft.Extensions.Logging;
 namespace DatabaseMigrator
 {
     using System;
-    using System.IO;
     using System.Linq;
+    using System.Text;
     using CustomLogic.Database;
     using DatabaseMigrator.JsonCSharpClassGeneratorLib;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
+    using DatabaseMigrator.JsonCSharpClassGeneratorLib.CodeWriters;
     using RecruitMe.Web.Database;
 
     public class ChangeFeed
@@ -32,29 +31,26 @@ namespace DatabaseMigrator
         {
             if (input != null && input.Count > 0)
             {
-                Dictionary<string, string> classes = new Dictionary<string, string>();
                 log.LogInformation("Documents modified " + input.Count);
                 foreach (var document in input)
                 {
                     var partition = document.GetPropertyValue<string>("Shard");
-                    JsonClassGenerator generator = new JsonClassGenerator();
-                    var memoryStream = new MemoryStream();
-                    generator.OutputStream = new StreamWriter(memoryStream);
-                    generator.GenerateClasses(document, classes);
-                    memoryStream.Flush();
-                    var fsr = new FileStreamResult(new MemoryStream(memoryStream.ToArray()), "text/plain");
+                    var entityType = document.GetPropertyValue<string>("Bucket");
+                    JsonClassGenerator cSharpClassGenerator = new JsonClassGenerator(new CSharpCodeWriter());
+                    JsonClassGenerator tsClassGenerator = new JsonClassGenerator(new TypeScriptCodeWriter());
+                    cSharpClassGenerator.GenerateClasses(document);
+                    tsClassGenerator.GenerateClasses(document);
 
-                    using (var stream = new StreamReader(fsr.FileStream))
-                    {
-                        var classString = stream.ReadToEnd();
+                        var cSharpeClass = cSharpClassGenerator.StringBuilder.ToString();
+                        var tsClass = tsClassGenerator.StringBuilder.ToString();
                         var ts = document.GetPropertyValue<long>("_ts");
                         var dateTime = DateTimeOffset.FromUnixTimeSeconds(ts);
 
-                        var sameItem = _databaseMigratorContext.CreatedFiles.FirstOrDefault(c => c.CsFiles == classString);
+                        var sameItem = _databaseMigratorContext.CreatedFiles.FirstOrDefault(c => c.CsFiles == cSharpeClass); // we only check the c# class
 
                         var upsertItem = new DocumentRecords
                         {
-                            EntityType = string.IsNullOrWhiteSpace(generator.MainClass) ? "Unknown" : generator.MainClass,
+                            EntityType = string.IsNullOrWhiteSpace(entityType) ? "Unknown" : entityType,
                             Partition = partition,
                             Id = document.Id,
                             Ts = dateTime.UtcDateTime,
@@ -71,14 +67,13 @@ namespace DatabaseMigrator
                         {
                             upsertItem.CreatedFiles = new CreatedFiles
                             {
-                                CsFiles = classString,
-                                TsFile = ""
+                                CsFiles = cSharpeClass,
+                                TsFile = tsClass
                             };
                             _databaseMigratorContext.DocumentRecords.Add(upsertItem);
                             _databaseMigratorContext.SaveChanges();
-                            log.LogInformation("Added another class type to ducument");
+                            log.LogInformation("Added another class type to document");
                         }
-                    }
                 }
 
                 _databaseMigratorContext.SaveChanges();

@@ -1,6 +1,8 @@
 ﻿namespace DatabaseMigrator.JsonCSharpClassGeneratorLib.CodeWriters
 {
+    using System;
     using System.IO;
+    using System.Text;
 
     public class CSharpCodeWriter : ICodeWriter
     {
@@ -55,60 +57,60 @@
             return config.ApplyObfuscationAttributes && !config.ExplicitDeserialization && config.UseProperties;
         }
 
-        public void WriteFileStart(IJsonClassGeneratorConfig config, TextWriter sw)
+        public void WriteFileStart(IJsonClassGeneratorConfig config, StringBuilder sw)
         {
             if (config.UseNamespaces)
             {
                 foreach (var line in JsonClassGenerator.FileHeader)
                 {
-                    sw.WriteLine("// " + line);
+                    sw.AppendLine("// " + line);
                 }
-                sw.WriteLine();
-                sw.WriteLine("using System;");
-                sw.WriteLine("using System.Collections.Generic;");
+                sw.AppendLine();
+                sw.AppendLine("using System;");
+                sw.AppendLine("using System.Collections.Generic;");
                 if (ShouldApplyNoPruneAttribute(config) || ShouldApplyNoRenamingAttribute(config))
-                    sw.WriteLine("using System.Reflection;");
+                    sw.AppendLine("using System.Reflection;");
                 if (!config.ExplicitDeserialization && config.UsePascalCase)
-                    sw.WriteLine("using Newtonsoft.Json;");
-                sw.WriteLine("using Newtonsoft.Json.Linq;");
+                    sw.AppendLine("using Newtonsoft.Json;");
+                sw.AppendLine("using Newtonsoft.Json.Linq;");
                 if (config.ExplicitDeserialization)
-                    sw.WriteLine("using JsonCSharpClassGenerator;");
+                    sw.AppendLine("using JsonCSharpClassGenerator;");
                 if (config.SecondaryNamespace != null && config.HasSecondaryClasses && !config.UseNestedClasses)
                 {
-                    sw.WriteLine("using {0};", config.SecondaryNamespace);
+                    sw.AppendLine(String.Format("using {0};", config.SecondaryNamespace));
                 }
             }
 
             if (config.UseNestedClasses)
             {
-                sw.WriteLine("    {0} class {1}", config.InternalVisibility ? "internal" : "public", config.MainClass);
-                sw.WriteLine("    {");
+                sw.AppendLine(String.Format("    {0} class {1}", config.InternalVisibility ? "internal" : "public", config.MainClass));
+                sw.AppendLine("    {");
             }
         }
 
-        public void WriteFileEnd(IJsonClassGeneratorConfig config, TextWriter sw)
+        public void WriteFileEnd(IJsonClassGeneratorConfig config, StringBuilder sw)
         {
             if (config.UseNestedClasses)
             {
-                sw.WriteLine("    }");
+                sw.AppendLine("    }");
             }
         }
 
 
-        public void WriteNamespaceStart(IJsonClassGeneratorConfig config, TextWriter sw, bool root)
+        public void WriteNamespaceStart(IJsonClassGeneratorConfig config, StringBuilder sw, bool root)
         {
-            sw.WriteLine();
-            sw.WriteLine("namespace {0}", root && !config.UseNestedClasses ? config.Namespace : (config.SecondaryNamespace ?? config.Namespace));
-            sw.WriteLine("{");
-            sw.WriteLine();
+            sw.AppendLine();
+            sw.AppendLine(String.Format("namespace {0}", root && !config.UseNestedClasses ? config.Namespace : (config.SecondaryNamespace ?? config.Namespace)));
+            sw.AppendLine("{");
+            sw.AppendLine();
         }
 
-        public void WriteNamespaceEnd(IJsonClassGeneratorConfig config, TextWriter sw, bool root)
+        public void WriteNamespaceEnd(IJsonClassGeneratorConfig config, StringBuilder sw, bool root)
         {
-            sw.WriteLine("}");
+            sw.AppendLine("}");
         }
 
-        public void WriteClass(IJsonClassGeneratorConfig config, TextWriter sw, JsonType type)
+        public void WriteClass(IJsonClassGeneratorConfig config, StringBuilder sw, JsonType type)
         {
             var visibility = config.InternalVisibility ? "internal" : "public";
 
@@ -118,18 +120,18 @@
             {
                 if (!type.IsRoot)
                 {
-                    if (ShouldApplyNoRenamingAttribute(config)) sw.WriteLine("        " + NoRenameAttribute);
-                    if (ShouldApplyNoPruneAttribute(config)) sw.WriteLine("        " + NoPruneAttribute);
-                    sw.WriteLine("        {0} class {1}", visibility, type.AssignedName);
-                    sw.WriteLine("        {");
+                    if (ShouldApplyNoRenamingAttribute(config)) sw.AppendLine("        " + NoRenameAttribute);
+                    if (ShouldApplyNoPruneAttribute(config)) sw.AppendLine("        " + NoPruneAttribute);
+                    sw.AppendLine(String.Format("        {0} class {1}", visibility, type.AssignedName));
+                    sw.AppendLine("        {");
                 }
             }
             else
             {
-                if (ShouldApplyNoRenamingAttribute(config)) sw.WriteLine("    " + NoRenameAttribute);
-                if (ShouldApplyNoPruneAttribute(config)) sw.WriteLine("    " + NoPruneAttribute);
-                sw.WriteLine("    {0} class {1}", visibility, type.AssignedName);
-                sw.WriteLine("    {");
+                if (ShouldApplyNoRenamingAttribute(config)) sw.AppendLine("    " + NoRenameAttribute);
+                if (ShouldApplyNoPruneAttribute(config)) sw.AppendLine("    " + NoPruneAttribute);
+                sw.AppendLine(String.Format("    {0} class {1}", visibility, type.AssignedName));
+                sw.AppendLine("    {");
             }
 
             var prefix = config.UseNestedClasses && !type.IsRoot ? "            " : "        ";
@@ -138,8 +140,8 @@
             var shouldSuppressWarning = config.InternalVisibility && !config.UseProperties && !config.ExplicitDeserialization;
             if (shouldSuppressWarning)
             {
-                sw.WriteLine("#pragma warning disable 0649");
-                if (!config.UsePascalCase) sw.WriteLine();
+                sw.AppendLine("#pragma warning disable 0649");
+                if (!config.UsePascalCase) sw.AppendLine();
             }
 
             if (type.IsRoot && config.ExplicitDeserialization) WriteStringConstructorExplicitDeserialization(config, sw, type, prefix);
@@ -156,51 +158,51 @@
 
             if (shouldSuppressWarning)
             {
-                sw.WriteLine();
-                sw.WriteLine("#pragma warning restore 0649");
-                sw.WriteLine();
+                sw.AppendLine();
+                sw.AppendLine("#pragma warning restore 0649");
+                sw.AppendLine();
             }
 
 
             if (config.UseNestedClasses && !type.IsRoot)
-                sw.WriteLine("        }");
+                sw.AppendLine("        }");
 
             if (!config.UseNestedClasses)
-                sw.WriteLine("    }");
+                sw.AppendLine("    }");
 
-            sw.WriteLine();
+            sw.AppendLine();
 
 
         }
 
 
 
-        private void WriteClassMembers(IJsonClassGeneratorConfig config, TextWriter sw, JsonType type, string prefix)
+        private void WriteClassMembers(IJsonClassGeneratorConfig config, StringBuilder sw, JsonType type, string prefix)
         {
             foreach (var field in type.Fields)
             {
-                if (config.UsePascalCase || config.ExamplesInDocumentation) sw.WriteLine();
+                if (config.UsePascalCase || config.ExamplesInDocumentation) sw.AppendLine();
 
                 if (config.ExamplesInDocumentation)
                 {
-                    sw.WriteLine(prefix + "/// <summary>");
-                    sw.WriteLine(prefix + "/// Examples: " + field.GetExamplesText());
-                    sw.WriteLine(prefix + "/// </summary>");
+                    sw.AppendLine(prefix + "/// <summary>");
+                    sw.AppendLine(prefix + "/// Examples: " + field.GetExamplesText());
+                    sw.AppendLine(prefix + "/// </summary>");
                 }
 
                 if (config.UsePascalCase)
                 {
 
-                    sw.WriteLine(prefix + "[JsonProperty(\"{0}\")]", field.JsonMemberName);
+                    sw.AppendLine(String.Format(prefix + "[JsonProperty(\"{0}\")]", field.JsonMemberName));
                 }
 
                 if (config.UseProperties)
                 {
-                    sw.WriteLine(prefix + "public {0} {1} {{ get; set; }}", field.Type.GetTypeName(), field.MemberName);
+                    sw.AppendLine(String.Format(prefix + "public {0} {1} {{ get; set; }}", field.Type.GetTypeName(), field.MemberName));
                 }
                 else
                 {
-                    sw.WriteLine(prefix + "public {0} {1};", field.Type.GetTypeName(), field.MemberName);
+                    sw.AppendLine(String.Format(prefix + "public {0} {1};", field.Type.GetTypeName(), field.MemberName));
                 }
             }
 
@@ -213,15 +215,15 @@
 
 
         #region Code for (obsolete) explicit deserialization
-        private void WriteClassWithPropertiesExplicitDeserialization(TextWriter sw, JsonType type, string prefix)
+        private void WriteClassWithPropertiesExplicitDeserialization(StringBuilder sw, JsonType type, string prefix)
         {
 
-            sw.WriteLine(prefix + "private JObject __jobject;");
-            sw.WriteLine(prefix + "public {0}(JObject obj)", type.AssignedName);
-            sw.WriteLine(prefix + "{");
-            sw.WriteLine(prefix + "    this.__jobject = obj;");
-            sw.WriteLine(prefix + "}");
-            sw.WriteLine();
+            sw.AppendLine(prefix + "private JObject __jobject;");
+            sw.AppendLine(String.Format(prefix + "public {0}(JObject obj)", type.AssignedName));
+            sw.AppendLine(prefix + "{");
+            sw.AppendLine(prefix + "    this.__jobject = obj;");
+            sw.AppendLine(prefix + "}");
+            sw.AppendLine();
 
             foreach (var field in type.Fields)
             {
@@ -230,63 +232,63 @@
                 if (field.Type.MustCache)
                 {
                     variable = "_" + char.ToLower(field.MemberName[0]) + field.MemberName.Substring(1);
-                    sw.WriteLine(prefix + "[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]");
-                    sw.WriteLine(prefix + "private {0} {1};", field.Type.GetTypeName(), variable);
+                    sw.AppendLine(prefix + "[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]");
+                    sw.AppendLine(String.Format(prefix + "private {0} {1};", field.Type.GetTypeName(), variable));
                 }
 
 
-                sw.WriteLine(prefix + "public {0} {1}", field.Type.GetTypeName(), field.MemberName);
-                sw.WriteLine(prefix + "{");
-                sw.WriteLine(prefix + "    get");
-                sw.WriteLine(prefix + "    {");
+                sw.AppendLine(String.Format(prefix + "public {0} {1}", field.Type.GetTypeName(), field.MemberName));
+                sw.AppendLine(prefix + "{");
+                sw.AppendLine(prefix + "    get");
+                sw.AppendLine(prefix + "    {");
                 if (field.Type.MustCache)
                 {
-                    sw.WriteLine(prefix + "        if ({0} == null)", variable);
-                    sw.WriteLine(prefix + "            {0} = {1};", variable, field.GetGenerationCode("__jobject"));
-                    sw.WriteLine(prefix + "        return {0};", variable);
+                    sw.AppendLine(String.Format(prefix + "        if ({0} == null)", variable));
+                    sw.AppendLine(String.Format(prefix + "            {0} = {1};", variable, field.GetGenerationCode("__jobject")));
+                    sw.AppendLine(String.Format(prefix + "        return {0};", variable));
                 }
                 else
                 {
-                    sw.WriteLine(prefix + "        return {0};", field.GetGenerationCode("__jobject"));
+                    sw.AppendLine(String.Format(prefix + "        return {0};", field.GetGenerationCode("__jobject")));
                 }
-                sw.WriteLine(prefix + "    }");
-                sw.WriteLine(prefix + "}");
-                sw.WriteLine();
+                sw.AppendLine(prefix + "    }");
+                sw.AppendLine(prefix + "}");
+                sw.AppendLine();
 
             }
 
         }
 
 
-        private void WriteStringConstructorExplicitDeserialization(IJsonClassGeneratorConfig config, TextWriter sw, JsonType type, string prefix)
+        private void WriteStringConstructorExplicitDeserialization(IJsonClassGeneratorConfig config, StringBuilder sw, JsonType type, string prefix)
         {
-            sw.WriteLine();
-            sw.WriteLine(prefix + "public {1}(string json)", config.InternalVisibility ? "internal" : "public", type.AssignedName);
-            sw.WriteLine(prefix + "    : this(JObject.Parse(json))");
-            sw.WriteLine(prefix + "{");
-            sw.WriteLine(prefix + "}");
-            sw.WriteLine();
+            sw.AppendLine();
+            sw.AppendLine(String.Format(prefix + "public {1}(string json)", config.InternalVisibility ? "internal" : "public", type.AssignedName));
+            sw.AppendLine(prefix + "    : this(JObject.Parse(json))");
+            sw.AppendLine(prefix + "{");
+            sw.AppendLine(prefix + "}");
+            sw.AppendLine();
         }
 
-        private void WriteClassWithFieldsExplicitDeserialization(TextWriter sw, JsonType type, string prefix)
+        private void WriteClassWithFieldsExplicitDeserialization(StringBuilder sw, JsonType type, string prefix)
         {
 
 
-            sw.WriteLine(prefix + "public {0}(JObject obj)", type.AssignedName);
-            sw.WriteLine(prefix + "{");
+            sw.AppendLine(String.Format(prefix + "public {0}(JObject obj)", type.AssignedName));
+            sw.AppendLine(prefix + "{");
 
             foreach (var field in type.Fields)
             {
-                sw.WriteLine(prefix + "    this.{0} = {1};", field.MemberName, field.GetGenerationCode("obj"));
+                sw.AppendLine(String.Format(prefix + "    this.{0} = {1};", field.MemberName, field.GetGenerationCode("obj")));
 
             }
 
-            sw.WriteLine(prefix + "}");
-            sw.WriteLine();
+            sw.AppendLine(prefix + "}");
+            sw.AppendLine();
 
             foreach (var field in type.Fields)
             {
-                sw.WriteLine(prefix + "public readonly {0} {1};", field.Type.GetTypeName(), field.MemberName);
+                sw.AppendLine(String.Format(prefix + "public readonly {0} {1};", field.Type.GetTypeName(), field.MemberName));
             }
         }
         #endregion
