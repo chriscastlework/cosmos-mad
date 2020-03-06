@@ -36,8 +36,8 @@ namespace DatabaseMigrator
                 {
                     var partition = document.GetPropertyValue<string>("Shard");
                     var entityType = document.GetPropertyValue<string>("Bucket");
-                    JsonClassGenerator cSharpClassGenerator = new JsonClassGenerator(new CSharpCodeWriter());
-                    JsonClassGenerator tsClassGenerator = new JsonClassGenerator(new TypeScriptCodeWriter());
+                    var tsClassGenerator = new JsonClassGenerator(new TypeScriptCodeWriter());
+                    var cSharpClassGenerator = new JsonClassGenerator(new CSharpCodeWriter());
                     cSharpClassGenerator.GenerateClasses(document);
                     tsClassGenerator.GenerateClasses(document);
 
@@ -48,15 +48,20 @@ namespace DatabaseMigrator
 
                         var sameItem = _databaseMigratorContext.CreatedFiles.FirstOrDefault(c => c.CsFiles == cSharpeClass); // we only check the c# class
 
-                        var upsertItem = new DocumentRecords
-                        {
-                            EntityType = string.IsNullOrWhiteSpace(entityType) ? "Unknown" : entityType,
-                            Partition = partition,
-                            Id = document.Id,
-                            Ts = dateTime.UtcDateTime,
-                            JsonDocument = document.ToString()
-                        };  
+                        var upsertItem = _databaseMigratorContext.DocumentRecords.FirstOrDefault(c => c.Id == document.Id && c.Partition == partition); // we only check the c# class
 
+                        if (upsertItem == null)
+                        {
+                            upsertItem = new DocumentRecords
+                            {
+                                EntityType = string.IsNullOrWhiteSpace(entityType) ? "Unknown" : entityType,
+                                Partition = partition,
+                                Id = document.Id,
+                                Ts = dateTime.UtcDateTime,
+                                JsonDocument = document.ToString()
+                            };
+                        }
+                       
                         if (sameItem != null)
                         {
                             upsertItem.CreatedFilesId = sameItem.Id;
