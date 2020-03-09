@@ -11,7 +11,6 @@ namespace DatabaseMigrator
     using CustomLogic.Database;
     using DatabaseMigrator.JsonCSharpClassGeneratorLib;
     using DatabaseMigrator.JsonCSharpClassGeneratorLib.CodeWriters;
-    using RecruitMe.Web.Database;
 
     public class ChangeFeed
     {

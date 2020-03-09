@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace RecruitMe.Web.Database
+﻿namespace CustomLogic.Database
 {
-    using CustomLogic.Database;
+    using System;
 
     public partial class DocumentRecords
     {

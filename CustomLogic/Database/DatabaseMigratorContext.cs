@@ -1,7 +1,6 @@
 ﻿namespace CustomLogic.Database
 {
     using Microsoft.EntityFrameworkCore;
-    using RecruitMe.Web.Database;
 
     public partial class DatabaseMigratorContext : DbContext
     {

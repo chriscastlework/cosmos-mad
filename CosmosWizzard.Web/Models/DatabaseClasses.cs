@@ -1,4 +1,4 @@
-﻿namespace CosmosWizzard.Web.Models
+﻿namespace CosmosWizard.Web.Models
 {
     using CustomLogic.Database;
 

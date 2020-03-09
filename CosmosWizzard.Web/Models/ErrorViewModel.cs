@@ -1,6 +1,4 @@
-using System;
-
-namespace CosmosWizzard.Web.Models
+namespace CosmosWizard.Web.Models
 {
     public class ErrorViewModel
     {

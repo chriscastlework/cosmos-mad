@@ -1,7 +1,6 @@
 ﻿namespace CustomLogic.Database
 {
     using System.Collections.Generic;
-    using RecruitMe.Web.Database;
 
     public partial class CreatedFiles
     {

@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
-namespace CosmosWizzard.Web.Controllers
+﻿namespace CosmosWizard.Web.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
     using CustomLogic.Database;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
 
     public class CreatedFilesController : Controller
     {

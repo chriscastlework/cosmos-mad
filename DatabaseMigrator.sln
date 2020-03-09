@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseMigrator", "Databas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomLogic", "CustomLogic\CustomLogic.csproj", "{11D59E5E-24CB-4C74-A81E-02AB127C3449}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosWizzard.Web", "CosmosWizzard.Web\CosmosWizzard.Web.csproj", "{4F805702-8954-4164-8203-9F150FDB0C25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CosmosWizard.Web", "CosmosWizzard.Web\CosmosWizard.Web.csproj", "{4F805702-8954-4164-8203-9F150FDB0C25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
