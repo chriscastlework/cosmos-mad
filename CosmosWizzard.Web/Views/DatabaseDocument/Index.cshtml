@@ -1,50 +1,91 @@
-﻿@model IEnumerable<CustomLogic.Database.DocumentRecords>
+﻿@model CosmosWizard.Web.Models.DatabaseDocument
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Document Count =  @Model.EntityCount</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+@if (Model.EntityTypes.Any())
+{
+    <h2>Investigation Links</h2>
+
+
+    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+        <ul class="navbar-nav flex-grow-1">
+            @foreach (var item in Model.EntityTypes)
+            {
+                var parms = new Dictionary<string, string>
+            {
+            { "entityType", item }
+        };
+
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="DatabaseDocument" asp-action="Index" asp-all-route-data="parms">@item</a>
+    </li>
+}
+        </ul>
+    </div>
+}
+
+@if (Model.EntityTypes.Any())
+{
+    <h2>Download Links</h2>
+    <ul class="navbar-nav">
+        @foreach (var item in Model.EntityTypes)
         {
+            var parms = new Dictionary<string, string>
+{
+                { "entityType", item }
+            };
+
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="DatabaseDocument" asp-action="Export" asp-all-route-data="parms">@item</a>
+    </li>
+}
+    </ul>
+}
+
+
+
+@if (Model.DataVersions.Any())
+{
+    <h2>Number of different c# classed created @Model.DataVersions.Count)</h2>
+    @foreach (var item in Model.DataVersions)
+    {
+        <pre>
+        <code>
+                @Html.DisplayFor(modelItem => item)
+            </code>
+        </pre>
+    }
+}
+
+
+@if (Model.Entities.Any())
+{
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    <pre>
-                        <code>
-                            @Html.DisplayFor(modelItem => item.JsonDocument)
-                        </code>
-                    </pre>
-                </td>
-                <td>
-                    <pre>
-                        <code>
-                            @Html.DisplayFor(modelItem => item.JsonDocument)
-                        </code>
-                    </pre>
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Entities[0].Id)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Entities)
+            {
+                <tr>
+                    <td>
+                        <pre>
+                        <code>
+                                @Html.DisplayFor(modelItem => item.JsonDocument)
+                            </code>
+                        </pre>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

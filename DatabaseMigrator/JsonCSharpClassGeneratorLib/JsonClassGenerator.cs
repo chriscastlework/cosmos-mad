@@ -7,6 +7,7 @@
     using System.Text;
     using DatabaseMigrator.JsonCSharpClassGeneratorLib.CodeWriters;
     using Microsoft.Azure.Documents;
+    using Microsoft.WindowsAzure.Storage.Blob.Protocol;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using Pluralize.NET.Core;
@@ -266,7 +267,7 @@
         }
 
         public IList<JsonType> Types { get; private set; }
-        private HashSet<string> Names = new HashSet<string>();
+        public HashSet<string> Names { get; set; } = new HashSet<string>();
 
         private string CreateUniqueClassName(string name)
         {
@@ -286,8 +287,20 @@
 
         private string CreateUniqueClassNameFromPlural(string plural)
         {
+            if (string.IsNullOrWhiteSpace(plural))
+            {
+                plural = Guid.NewGuid().ToString();
+            }
+
             plural = ToTitleCase(plural);
-            return CreateUniqueClassName(_pluralizationService.Singularize(plural));
+            var className = _pluralizationService.Singularize(plural);
+
+            if (string.IsNullOrWhiteSpace(plural))
+            {
+                className = plural;
+            }
+
+            return CreateUniqueClassName(className);
         }
 
 
